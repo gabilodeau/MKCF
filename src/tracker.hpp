@@ -40,7 +40,7 @@ class MKCFTrack
 	int unmatchedTime;  
 	Ptr<Tracker> tracker;
 
-	MKCFTrack(){}
+	MKCFTrack(){startframe=-1;}
 	MKCFTrack(const MKCFTrack &atrack) {label = atrack.label; bboxes = atrack.bboxes; startframe = atrack.startframe; KCF_occlusionTime = atrack.KCF_occlusionTime; unmatchedTime = atrack.unmatchedTime; tracker = atrack.tracker;} 
 	MKCFTrack &operator=(const MKCFTrack &atrack) {label = atrack.label; bboxes = atrack.bboxes; startframe = atrack.startframe; KCF_occlusionTime = atrack.KCF_occlusionTime; unmatchedTime = atrack.unmatchedTime; tracker = atrack.tracker; return *this;}  
 };
@@ -49,15 +49,11 @@ class MKCFTrack
 class MKCFTracker 
 {
 	int startframe, endframe, minTrackLengthth, mergeth, unmatchedDurationth;
-	ofstream outdata;
-
 	int ids;
 	vector<MKCFTrack> Result;
 	vector<MKCFTrack> activeTracks;
 
-
 	vector<Rect2d> mergeBlobs(const Mat &foreground, vector<Rect2d> bboxlist);
-
 	void Create_new_obj(Rect2d bbox, const Mat &frame, int currentFrame);
 	float bbOverlap(const Rect2d &box1, const Rect2d &box2);
 	void saveLastActiveTracks();
@@ -68,4 +64,6 @@ class MKCFTracker
 	~MKCFTracker();
 	vector <Frameresult> track(const Mat &frame, const Mat &foreground, vector<Rect2d> bboxlist, int currentFrame);
 	bool saveToXML(string filename);
+	bool saveToUADetrac(string filename);
+	bool readUADetrac(string filename);
 };
